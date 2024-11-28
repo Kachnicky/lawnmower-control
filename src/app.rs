@@ -11,9 +11,20 @@ extern "C" {
 }
 
 #[component]
-pub fn App() -> impl IntoView {
+pub fn Settings() -> impl IntoView {
     view! {
-        <main class="container">
-        </main>
+        <h1>Settings</h1>
+    }
+}
+#[component]
+pub fn New() -> impl IntoView {
+    view! {
+        <h1>New</h1>
+    }
+}
+#[component]
+pub fn History() -> impl IntoView {
+    view! {
+        <h1>History</h1>
     }
 }
