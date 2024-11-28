@@ -11,20 +11,24 @@ extern "C" {
 }
 
 #[component]
-pub fn Settings() -> impl IntoView {
+pub fn History() -> impl IntoView {
     view! {
-        <h1>Settings</h1>
+        <main>
+        </main>
     }
 }
 #[component]
 pub fn New() -> impl IntoView {
     view! {
-        <h1>New</h1>
+        <main>
+            <button>Create POST req</button>
+        </main>
     }
 }
 #[component]
-pub fn History() -> impl IntoView {
+pub fn Presets() -> impl IntoView {
     view! {
-        <h1>History</h1>
+        <main>
+        </main>
     }
 }

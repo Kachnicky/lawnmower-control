@@ -1,14 +1,60 @@
+:root{
+  --crust: #11111b;
+  --base: #1e1e2e;
+  --surface0: #313244;
+  --surface1: #45475a;
+  --mauve: #cba6f7;
+  --blue: #89b4fa;
+  --text: #cdd6f4;
+}
+@font-face {
+  font-family: 'Sora';
+  src: url(public/Sora.ttf);
+}
+html{
+  height: 100vh;
+  background: var(--base);
+}
+
+body{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Sora', Arial, Helvetica, sans-serif;
+  margin: 0;
+}
 nav{
+  border-top: 1px solid var(--text);
+  flex: 1;
   display: flex;
   flex-direction: row;
-  border-bottom: 1px solid black;
+  background: linear-gradient(var(--base) 10% ,var(--crust) 50%);
+  border-radius: 16px 16px 0px 0px;
 }
 nav>a{
-  flex: 1;
+  flex: 2;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: color-mix(in srgb, var(--blue), var(--text));
+  text-decoration: none;
 }
-a+a{
-  border-left: 1px solid black;
+nav>a>svg{
+  width: 36px;
+  height: 36px;
+}
+nav>a>svg:last-child{
+  width: 32px;
+  height: 32px;
+}
+nav>a>svg>path{
+  stroke: var(--text);
+}
+nav>a+a{
+  border-left: 1px solid;
+  border-image: linear-gradient(to top, transparent 75%, var(--text)) 1; 
+}
+main{
+  flex:9;
+  background: linear-gradient(to top,color-mix(in srgb, var(--surface0), var(--base)), var(base));
 }
