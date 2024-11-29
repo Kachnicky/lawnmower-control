@@ -1,4 +1,5 @@
 use std::default;
+use std::error::Error;
 use std::{fmt::Write, io::Read};
 use std::time::{Instant, Duration};
 use html::{img, P};
@@ -8,7 +9,11 @@ use leptos_router::use_navigate;
 use serde::{Deserialize, Serialize};
 use serde_wasm_bindgen::to_value;
 use svg::view;
+use tokio::runtime::{Builder, Runtime};
 use wasm_bindgen::prelude::*;
+use reqwest::{self, Client, Response};
+use std::process::Command;
+
 
 #[wasm_bindgen]
 extern "C" {
@@ -110,6 +115,9 @@ pub fn New() -> impl IntoView {
                     "Table" => return view! {
                         <img src="public/table.png"/>
                     },
+                    "Garden" => return view!{
+                        <img src="public/garden.png"/>
+                    },
                     _ => return view!{
                         <img src="public/blank.png"/>
                     },
@@ -136,6 +144,7 @@ pub fn New() -> impl IntoView {
             <div>
             <button id="play" on:click=move |_| {
                 set_playing.set(!playing.get());
+                postit();
             }>
             {move || if playing.get() {
                 view! { <Pause /> }
@@ -148,6 +157,21 @@ pub fn New() -> impl IntoView {
         </main>
     }
 }
+
+fn postit(){
+    leptos::logging::log!("launched postit");
+    let rt = Builder::new_current_thread().build().unwrap();
+    rt.block_on(async {
+            reqwest::get("http://10.10.12.238:8080").await.unwrap().text().await.unwrap();
+            /* let client = reqwest::Client::new();
+            let res = client.post("https://kachny.requestcatcher.com/")
+            .body("LAUNCH THE SCRIPT BOY")
+            .send()
+            .await.unwrap();
+            leptos::logging::log!("ALL GOOD BROSKI {:#?}", res); */
+    });
+}
+
 #[component]
 pub fn Play() -> impl IntoView {
     view!{
@@ -175,6 +199,18 @@ pub fn Presets() -> impl IntoView {
             <div id="presetTitle">
                 <h1>Presets</h1>
             </div>
+
+            <button class="preset" on:click=move |_| {
+                handle_preset_selection("Garden");
+            }>
+                <div class="presetTop">
+                    <svg width="24px" height="24px" stroke-width="2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M20 10C20 14.4183 12 22 12 22C12 22 4 14.4183 4 10C4 5.58172 7.58172 2 12 2C16.4183 2 20 5.58172 20 10Z"  stroke-width="2"></path><path d="M12 11C12.5523 11 13 10.5523 13 10C13 9.44772 12.5523 9 12 9C11.4477 9 11 9.44772 11 10C11 10.5523 11.4477 11 12 11Z" fill="#000000"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    <h2>Garden</h2>
+                </div>
+                <div class="presetBottom">
+                    <img src="public/garden.png"></img>
+                </div>
+            </button>
 
             <button class="preset" on:click=move |_| {
                 handle_preset_selection("Table");
