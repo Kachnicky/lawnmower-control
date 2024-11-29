@@ -1,6 +1,7 @@
+use std::default;
 use std::{fmt::Write, io::Read};
 use std::time::{Instant, Duration};
-use html::P;
+use html::{img, P};
 use leptos::leptos_dom::ev::SubmitEvent;
 use leptos::*;
 use leptos_router::use_navigate;
@@ -101,6 +102,20 @@ pub fn New() -> impl IntoView {
                     }
                 }</h1>
             </div>
+            <div id="presetImage">
+                {move || match getPreset.get().as_str(){
+                    "Whiteboard" => return view! {
+                        <img src="public/whiteboard.png"/>
+                    },
+                    "Table" => return view! {
+                        <img src="public/table.png"/>
+                    },
+                    _ => return view!{
+                        <img src="public/blank.png"/>
+                    },
+                }
+                }
+            </div>
             <div>
                 <h2>Current status:</h2>
                 <h3>{move || if playing.get() {
@@ -118,8 +133,6 @@ pub fn New() -> impl IntoView {
             else{
                 ""
             }}</div>
-            <div>
-            </div> 
             <div>
             <button id="play" on:click=move |_| {
                 set_playing.set(!playing.get());
