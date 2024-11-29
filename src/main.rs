@@ -4,7 +4,11 @@ use app::*;
 use leptos::*;
 use leptos_router::*;
 
+
 fn main() {
+    let (getPreset, setPreset) = create_signal(String::new());
+    provide_context(setPreset);
+    provide_context(getPreset);
     console_error_panic_hook::set_once();
     mount_to_body(|| {
         view! {

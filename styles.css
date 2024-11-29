@@ -94,6 +94,7 @@ nav>a+a{
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
 }
 
 #addMain>div>h2,
@@ -103,6 +104,11 @@ nav>a+a{
 #addMain>div>h3{
   margin-left: 16px;
   font-size: 1.5em;
+}
+.discovery{
+  font-family: 'Sora', Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  color: var(--sapphire);
 }
 #play{
   background: linear-gradient(to top, transparent, color-mix(in srgb, transparent 85%, var(--green)));
@@ -133,6 +139,8 @@ nav>a+a{
   justify-content: center;
   padding: 8px;
   margin-top: 16px;
+  color: var(--text);
+  cursor: pointer;
 }
 .preset > * {
   width: 100%;

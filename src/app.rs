@@ -1,6 +1,9 @@
+use std::{fmt::Write, io::Read};
+
 use html::P;
 use leptos::leptos_dom::ev::SubmitEvent;
 use leptos::*;
+use leptos_router::use_navigate;
 use serde::{Deserialize, Serialize};
 use serde_wasm_bindgen::to_value;
 use svg::view;
@@ -12,8 +15,6 @@ extern "C" {
     async fn invoke(cmd: &str, args: JsValue) -> JsValue;
 }
 
-#[derive(Copy, Clone)]
-struct Preset(WriteSignal<String>);
 
 #[component]
 pub fn History() -> impl IntoView {
@@ -55,10 +56,19 @@ pub fn History() -> impl IntoView {
 #[component]
 pub fn New() -> impl IntoView {
     let (playing, set_playing) = create_signal(false);
+    let getPreset = use_context::<ReadSignal<String>>().unwrap();
+    let (getDiscovery, setDiscovery) = create_signal(getPreset.get().is_empty());
     view! {
         <main id="addMain">
             <div>
-                <h1>New job!</h1>
+                <h1>Current preset : {
+                    move || if getPreset.get().is_empty(){
+                        return "None!".to_string()
+                    }
+                    else{
+                        getPreset.get()
+                    }
+                }</h1>
             </div>
             <div>
                 <h2>Current status:</h2>
@@ -71,8 +81,13 @@ pub fn New() -> impl IntoView {
                     }
                 </h3>
             </div>
-            <div></div>
-            <div></div>
+            <div class="discovery">{move || if getDiscovery.get(){
+                "Discovery mode enabled"
+            }
+            else{
+                ""
+            }}</div>
+            <div></div> 
             <div>
             <button id="play" on:click=move |_| {
                 set_playing.set(!playing.get());
@@ -104,13 +119,21 @@ pub fn Pause() -> impl IntoView {
 
 #[component]
 pub fn Presets() -> impl IntoView {
+    let handle_preset_selection = move |preset_name: &str| {
+        let set_preset = use_context::<WriteSignal<String>>().unwrap();
+        let navigate = use_navigate(); 
+        set_preset.set(preset_name.to_string());
+        navigate("/", Default::default());
+    };
     view! {
         <main id="presetsMain">
             <div id="presetTitle">
                 <h1>Presets</h1>
             </div>
 
-            <div class="preset">
+            <button class="preset" on:click=move |_| {
+                handle_preset_selection("Table");
+            }>
                 <div class="presetTop">
                     <svg width="24px" height="24px" stroke-width="2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M20 10C20 14.4183 12 22 12 22C12 22 4 14.4183 4 10C4 5.58172 7.58172 2 12 2C16.4183 2 20 5.58172 20 10Z"  stroke-width="2"></path><path d="M12 11C12.5523 11 13 10.5523 13 10C13 9.44772 12.5523 9 12 9C11.4477 9 11 9.44772 11 10C11 10.5523 11.4477 11 12 11Z" fill="#000000"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                     <h2>Table</h2>
@@ -118,8 +141,10 @@ pub fn Presets() -> impl IntoView {
                 <div class="presetBottom">
                     <img src="public/table.png"></img>
                 </div>
-            </div>
-            <div class="preset">
+            </button>
+            <button class="preset" on:click=move |_| {
+                handle_preset_selection("Whiteboard");
+            }>
                 <div class="presetTop">
                     <svg width="24px" height="24px" stroke-width="2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M20 10C20 14.4183 12 22 12 22C12 22 4 14.4183 4 10C4 5.58172 7.58172 2 12 2C16.4183 2 20 5.58172 20 10Z"  stroke-width="2"></path><path d="M12 11C12.5523 11 13 10.5523 13 10C13 9.44772 12.5523 9 12 9C11.4477 9 11 9.44772 11 10C11 10.5523 11.4477 11 12 11Z" fill="#000000"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                     <h2>Whiteboard</h2>
@@ -127,7 +152,7 @@ pub fn Presets() -> impl IntoView {
                 <div class="presetBottom">
                     <img src="public/whiteboard.png"></img>
                 </div>
-            </div>
+            </button>
         </main>
     }
 }
