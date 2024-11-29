@@ -1,5 +1,5 @@
 use std::{fmt::Write, io::Read};
-
+use std::time::{Instant, Duration};
 use html::P;
 use leptos::leptos_dom::ev::SubmitEvent;
 use leptos::*;
@@ -22,6 +22,33 @@ pub fn History() -> impl IntoView {
         <main id="historyMain">
             <div id="historyTitle">
                 <h1>History</h1>
+            </div>
+            <div class="historyItem">
+                <div class="usedPreset">
+                    <div class="icon">                    
+                        <svg width="24px" height="24px" stroke-width="2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M20 10C20 14.4183 12 22 12 22C12 22 4 14.4183 4 10C4 5.58172 7.58172 2 12 2C16.4183 2 20 5.58172 20 10Z"  stroke-width="2"></path><path d="M12 11C12.5523 11 13 10.5523 13 10C13 9.44772 12.5523 9 12 9C11.4477 9 11 9.44772 11 10C11 10.5523 11.4477 11 12 11Z" fill="#000000"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <div class="text">
+                        <h2>Whiteboard</h2>
+                    </div>
+                </div>
+                <div class="launchedTimestamp">
+                    <div class="icon">
+                        <svg width="24px" height="24px" stroke-width="2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M12 6L12 12L18 12"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <div class="text">
+                        <div class="date"><p>2024-11-29</p></div>
+                        <div class="time"><p>07:40:54</p></div>
+                    </div>
+                </div>
+                <div class="totalLength">
+                    <div class="icon">
+                        <svg width="24px" height="24px" stroke-width="2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M9 2L15 2"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 10L12 14"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 22C16.4183 22 20 18.4183 20 14C20 9.58172 16.4183 6 12 6C7.58172 6 4 9.58172 4 14C4 18.4183 7.58172 22 12 22Z"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <div class="text">
+                        <div class="time"><p>00:14:43</p></div>
+                    </div>    
+                </div>
             </div>
             <div class="historyItem">
                 <div class="usedPreset">
@@ -56,8 +83,12 @@ pub fn History() -> impl IntoView {
 #[component]
 pub fn New() -> impl IntoView {
     let (playing, set_playing) = create_signal(false);
+    create_effect(move |_| {
+        
+    });
     let getPreset = use_context::<ReadSignal<String>>().unwrap();
     let (getDiscovery, setDiscovery) = create_signal(getPreset.get().is_empty());
+
     view! {
         <main id="addMain">
             <div>
@@ -87,7 +118,8 @@ pub fn New() -> impl IntoView {
             else{
                 ""
             }}</div>
-            <div></div> 
+            <div>
+            </div> 
             <div>
             <button id="play" on:click=move |_| {
                 set_playing.set(!playing.get());

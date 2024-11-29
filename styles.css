@@ -186,6 +186,8 @@ nav>a+a{
   width: 90vw;
   height: 12.5vh;
   display: flex;
+  margin-top: 16px;
+
 }
 .historyItem > * {
   flex:1;
@@ -194,6 +196,10 @@ nav>a+a{
   align-items: center;
   justify-content: center;
 }
+.usedPreset > div > h2 {
+  font-size: 1.25em;
+}
+
 .text,.icon{
   width: 100%;
   display: flex;
