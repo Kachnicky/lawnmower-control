@@ -8,7 +8,12 @@ Tento projekt umožňuje ovládat a spravovat více sekaček na trávu najednou 
 - Další funkce budou přidány brzo
 
 ## 📥Instalace
-- Přidáme později
-
+- Instalace Tauri viz [link](https://tauri.app/start/prerequisites/)
+- Dále následující
+  ```
+  git clone https://github.com/kachnicky/lawnmower-control.git
+  cd lawnmower-control
+  npm install
+  npm run tauri dev
 ## 📕Licence
 - Přidáme později
