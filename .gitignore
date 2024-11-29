@@ -2,4 +2,3 @@
 /target/
 /Cargo.lock
 src-tauri/gen/android/keystore.properties
-src-tauri/gen/android/app/build.gradle.kts
