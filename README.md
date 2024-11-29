@@ -15,6 +15,6 @@ Tento projekt umožňuje ovládat a spravovat více sekaček na trávu najednou 
   cd lawnmower-control
   npm install
   npm run tauri dev
-** Postup instalace se stále testuje
+*Postup instalace se stále testuje*
 ## 📕Licence
 - Přidáme později
